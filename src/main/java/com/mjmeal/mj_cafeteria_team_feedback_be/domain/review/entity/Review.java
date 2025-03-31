@@ -1,7 +1,7 @@
 package com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.entity;
 
-import com.mjmeal.mj_cafeteria_team_feedback_be.common.BaseEntity;
-import com.mjmeal.mj_cafeteria_team_feedback_be.common.MealType;
+import com.mjmeal.mj_cafeteria_team_feedback_be.common.entity.BaseEntity;
+import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.MealType;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

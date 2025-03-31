@@ -1,4 +1,4 @@
-package com.mjmeal.mj_cafeteria_team_feedback_be.common;
+package com.mjmeal.mj_cafeteria_team_feedback_be.domain.review;
 
 import lombok.Getter;
 
