@@ -1,7 +1,7 @@
 spring:
 
   datasource:
-    url: jdbc:mysql://13.125.251.79:3306/mj-feedback
+    url: jdbc:mysql://localhost/mj-feedback
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
