@@ -1,1 +1,17 @@
-spring.application.name=MJ Cafeteria Team Feedback BE
+spring:
+
+  datasource:
+    url: jdbc:mysql://13.125.251.79:3306/mj-feedback
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+      hibernate:
+        ddl-auto: create
+      show-sql: true
+      properties:
+        hibernate:
+          format_sql: true
+          highlight_sql: true
+          dialect: org.hibernate.dialect.MySQLDialect
