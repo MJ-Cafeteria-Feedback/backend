@@ -110,6 +110,14 @@ jobs:
         env:
           EC2_HOST: ${{ secrets.EC2_HOST }}
 
+      - name: Copy application.yml to EC2
+        run: |
+          echo "${{ secrets.APPLICATION_YML }}" > application.yml
+          scp -i keypair-han.pem application.yml ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/application.yml
+          rm application.yml
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+
       - name: Register systemd service on EC2
         run: |
           ssh -i keypair-han.pem ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
