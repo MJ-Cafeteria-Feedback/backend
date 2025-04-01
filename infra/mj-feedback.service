@@ -1,0 +1,13 @@
+[Unit]
+Description=Spring Boot Application - MJ Feedback
+After=network.target
+
+[Service]
+User=ubuntu
+ExecStart=/usr/bin/java -jar /home/ec2-user/mj-feedback-spring.jar
+SuccessExitStatus=143
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
