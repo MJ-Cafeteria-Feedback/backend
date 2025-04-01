@@ -39,7 +39,7 @@ jobs:
       - name: Configure application.yml
         run: |
           mkdir -p src/main/resources
-          echo "${{ secrets.APPLICATION_YML }}" | base64 --decode > src/main/resources/application.yml
+          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
 
       - name: Set execute permission for gradlew
         run: chmod +x gradlew
