@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +22,9 @@ public class MealService {
 
     @Transactional(readOnly = true)
     public MealResponse findMealByDateAndMealType(MealType mealType) {
-        String todayStr = LocalDate.now().format(DateTimeFormatter.ofPattern("MM.dd"));
+        String todayStr = LocalDate.now(ZoneId.of("Asia/Seoul"))
+                .format(DateTimeFormatter.ofPattern("MM.dd"));
+
         Meal meal = mealRepository.findByDayInfoStartingWithAndMealType(todayStr, mealType);
 
         List<String> menuNames = meal.getMealMenus().stream()
