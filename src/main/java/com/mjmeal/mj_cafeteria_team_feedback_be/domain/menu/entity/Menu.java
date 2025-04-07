@@ -1,7 +1,6 @@
 package com.mjmeal.mj_cafeteria_team_feedback_be.domain.menu.entity;
 
 import com.mjmeal.mj_cafeteria_team_feedback_be.common.entity.BaseEntity;
-import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.MealType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,15 +17,10 @@ public class Menu extends BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String dayInfo;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private MealType mealType;
+    private String name;
 
     @Builder
-    private Menu(String dayInfo, MealType mealType) {
-        this.dayInfo = dayInfo;
-        this.mealType = mealType;
+    private Menu(String name) {
+        this.name = name;
     }
 }
