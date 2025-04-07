@@ -17,10 +17,8 @@ public class Review extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String overallOpinion;
 
-    @Column(nullable = false)
     private String freeOpinion;
 
     @ManyToOne(fetch = FetchType.LAZY)
