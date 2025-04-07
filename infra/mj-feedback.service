@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 User=ubuntu
-ExecStart=/usr/bin/java -jar /home/ubuntu/mj-feedback-spring.jar
+ExecStart=/usr/bin/java -jar /home/ubuntu/mj-feedback-spring.jar --spring.config.location=/home/ubuntu/application.yml
 SuccessExitStatus=143
 Restart=always
 RestartSec=5
