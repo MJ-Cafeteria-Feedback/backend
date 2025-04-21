@@ -29,7 +29,7 @@ public class MealEventConsumer {
     @KafkaListener(topics = "meal.web.crawler.updated", groupId = "web-Crawler")
     @Transactional
     public void consume(MealEvent event) {
-        MealType mealType = MealType.valueOf(event.getMealType());
+        MealType mealType = MealType.from(event.getMealType());
         String date = event.getDate();
         List<String> menuNames = Arrays.asList(event.getMealContents().split(" "));
 
