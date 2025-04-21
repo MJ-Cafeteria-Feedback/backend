@@ -1,5 +1,6 @@
 package com.mjmeal.mj_cafeteria_team_feedback_be.domain.meal.consumer;
 
+
 import com.example.kafka_schemas.MealEvent;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.meal.entity.Meal;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.meal.entity.MealMenu;

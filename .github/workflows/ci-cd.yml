@@ -15,14 +15,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check Avro schema presence
-        run: find src/main/avro -name "*.avsc"
 
       - name: Checkout Repository (with submodules)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: recursive
+
+      - name: Check Avro schema presence
+        run: find src/main/avro-schemas -name "*.avsc"
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
