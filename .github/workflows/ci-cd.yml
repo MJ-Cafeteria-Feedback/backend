@@ -15,6 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check Avro schema presence
+        run: find src/main/avro -name "*.avsc"
+
       - name: Checkout Repository (with submodules)
         uses: actions/checkout@v4
         with:
