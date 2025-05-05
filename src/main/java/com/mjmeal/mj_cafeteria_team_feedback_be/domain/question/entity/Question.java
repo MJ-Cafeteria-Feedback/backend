@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Table(
+        name = "question",
+        uniqueConstraints = @UniqueConstraint(columnNames = "menu_id")
+)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Question extends BaseEntity {
 
