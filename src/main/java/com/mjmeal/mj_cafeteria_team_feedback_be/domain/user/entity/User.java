@@ -29,4 +29,8 @@ public class User extends BaseEntity {
         this.phoneNumber = phoneNumber;
         this.point = point;
     }
+
+    public void changePoint(BigDecimal point) {
+        this.point = point;
+    }
 }
