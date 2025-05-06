@@ -24,13 +24,21 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private BigDecimal point;
 
+    @Column(nullable = true)
+    private String lastEarnDate;
+
     @Builder
-    private User(String phoneNumber, BigDecimal point) {
+    private User(String phoneNumber, BigDecimal point, String lastEarnDate) {
         this.phoneNumber = phoneNumber;
         this.point = point;
+        this.lastEarnDate = lastEarnDate;
     }
 
     public void changePoint(BigDecimal point) {
         this.point = point;
+    }
+
+    public void setLastEarnDate(String lastEarnDate) {
+        this.lastEarnDate = lastEarnDate;
     }
 }

@@ -2,8 +2,9 @@ package com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.controller;
 
 import com.mjmeal.mj_cafeteria_team_feedback_be.common.response.ApiResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.dto.UserEarnRequest;
+import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.dto.UserEarnResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.dto.UserEnsureRequest;
-import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.dto.UserResponse;
+import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.dto.UserEnsureResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +20,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/ensure")
-    public ApiResponse<UserResponse> ensure(@RequestBody UserEnsureRequest userEnsureRequest){
+    public ApiResponse<UserEnsureResponse> ensure(@RequestBody UserEnsureRequest userEnsureRequest){
         return ApiResponse.onSuccess(userService.ensure(userEnsureRequest));
     }
 
     @PostMapping("/earn")
-    public ApiResponse<UserResponse> earn(@RequestBody UserEarnRequest userEarnRequest){
+    public ApiResponse<UserEarnResponse> earn(@RequestBody UserEarnRequest userEarnRequest){
         return ApiResponse.onSuccess(userService.earn(userEarnRequest));
     }
 }
