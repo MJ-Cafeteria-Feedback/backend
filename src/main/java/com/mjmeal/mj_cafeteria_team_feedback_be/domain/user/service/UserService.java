@@ -1,5 +1,7 @@
 package com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.service;
 
+import com.mjmeal.mj_cafeteria_team_feedback_be.common.exception.BusinessException;
+import com.mjmeal.mj_cafeteria_team_feedback_be.common.response.error.ErrorCode;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.dto.UserEarnRequest;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.dto.UserEarnResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.user.dto.UserEnsureRequest;
@@ -53,7 +55,7 @@ public class UserService {
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
         if (user.getLastEarnDate() != null && user.getLastEarnDate().equals(lastEarnDate)) {
-            throw new IllegalStateException("오늘은 이미 포인트를 적립했습니다.");
+            throw new BusinessException(ErrorCode.ALREADY_EARNED_TODAY);
         }
 
         user.changePoint(userEarnRequest.getPoint());
