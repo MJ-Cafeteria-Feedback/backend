@@ -5,6 +5,7 @@ import com.mjmeal.mj_cafeteria_team_feedback_be.domain.meal.dto.MealResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.meal.service.MealService;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.MealType;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+@Tag(name = "식단")
 @RestController
-@RequestMapping("/meals")
+@RequestMapping("/api/team5/meals")
 @RequiredArgsConstructor
 public class MealController {
 

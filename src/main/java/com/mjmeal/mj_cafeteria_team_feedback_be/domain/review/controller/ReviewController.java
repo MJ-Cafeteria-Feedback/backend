@@ -4,14 +4,16 @@ import com.mjmeal.mj_cafeteria_team_feedback_be.common.response.ApiResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.dto.ReviewRequest;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "리뷰")
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("/api/team5/reviews")
 @RequiredArgsConstructor
 public class ReviewController {
 
