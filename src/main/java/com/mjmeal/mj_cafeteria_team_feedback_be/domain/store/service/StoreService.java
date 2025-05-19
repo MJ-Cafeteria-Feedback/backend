@@ -1,6 +1,7 @@
 package com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.service;
 
 import com.mjmeal.mj_cafeteria_team_feedback_be.common.S3Uploader;
+import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.dto.StoreDeleteRequest;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.dto.StoreRequest;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.dto.StoreResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.entity.Store;
@@ -17,15 +18,15 @@ import java.util.List;
 public class StoreService {
 
     private final StoreRepository storeRepository;
-    private final S3Uploader s3Uploader;
+   private final S3Uploader s3Uploader;
 
     @Transactional
     public void save(StoreRequest storeRequest, MultipartFile file) {
         String imageUrl = s3Uploader.upload(file);
 
-        Store store = storeRepository.findByName(storeRequest.getName())
+        Store store = storeRepository.findById(storeRequest.getId())
                 .map(existing -> {
-                    existing.update(storeRequest.getStoreType(), imageUrl, storeRequest.getDescription(), storeRequest.getUrl());
+                    existing.update(storeRequest.getStoreType(), storeRequest.getName(), imageUrl, storeRequest.getDescription(), storeRequest.getUrl());
                     return existing;
                 })
                 .orElseGet(() -> Store.builder()
@@ -43,5 +44,11 @@ public class StoreService {
     public StoreResponse getStores() {
         List<Store> stores = storeRepository.findAll();
         return new StoreResponse(stores);
+    }
+
+    @Transactional
+    public void deleteStores(StoreDeleteRequest storeDeleteRequest) {
+        Store store = storeRepository.findById(storeDeleteRequest.getId()).orElseThrow();
+        storeRepository.delete(store);
     }
 }
