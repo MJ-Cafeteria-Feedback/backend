@@ -5,6 +5,7 @@ import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.dto.StoreDeleteRequ
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.dto.StoreRequest;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.dto.StoreResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.entity.Store;
+import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.producer.StoreEventProducer;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,8 @@ import java.util.List;
 public class StoreService {
 
     private final StoreRepository storeRepository;
-   private final S3Uploader s3Uploader;
+    private final S3Uploader s3Uploader;
+    private final StoreEventProducer storeEventProducer;
 
     @Transactional
     public void save(StoreRequest storeRequest, MultipartFile file) {
@@ -37,7 +39,7 @@ public class StoreService {
                         .url(storeRequest.getUrl())
                         .build());
 
-        storeRepository.save(store);
+        storeEventProducer.sendStore(storeRepository.save(store));
     }
 
     @Transactional(readOnly = true)

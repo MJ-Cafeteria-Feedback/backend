@@ -12,6 +12,7 @@ import com.mjmeal.mj_cafeteria_team_feedback_be.domain.rating.entity.Rating;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.rating.repository.RatingRepository;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.dto.ReviewRequest;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.entity.Review;
+import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.producer.ReviewEventProducer;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class ReviewService {
     private final AnswerRepository answerRepository;
     private final QuestionRepository questionRepository;
     private final RatingRepository ratingRepository;
+    private final ReviewEventProducer reviewEventProducer;
 
     @Transactional
     public void save(ReviewRequest request) {
@@ -92,5 +94,11 @@ public class ReviewService {
                 }
             }
         }
+        reviewEventProducer.sendReviewEvent(meal,
+                request.getOverallOpinion(),
+                request.getFreeOpinion(),
+                request.getMenuRatings(),
+                request.getMenuQuestions(),
+                request.getMenuAnswers());
     }
 }
