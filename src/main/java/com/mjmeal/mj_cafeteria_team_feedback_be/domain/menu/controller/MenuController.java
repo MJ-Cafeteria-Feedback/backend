@@ -8,6 +8,7 @@ import com.mjmeal.mj_cafeteria_team_feedback_be.domain.menu.dto.WantMenuResponse
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.menu.service.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

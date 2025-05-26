@@ -1,6 +1,7 @@
 package com.mjmeal.mj_cafeteria_team_feedback_be.domain.quiz.controller;
 
 import com.mjmeal.mj_cafeteria_team_feedback_be.common.response.ApiResponse;
+import com.mjmeal.mj_cafeteria_team_feedback_be.domain.choice.dto.ChoiceRequest;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.quiz.dto.QuizRequest;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.quiz.dto.QuizResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.quiz.service.QuizService;

@@ -2,11 +2,10 @@ package com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.producer;
 
 import com.example.kafka_schemas.ReviewEvent;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.meal.entity.Meal;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
