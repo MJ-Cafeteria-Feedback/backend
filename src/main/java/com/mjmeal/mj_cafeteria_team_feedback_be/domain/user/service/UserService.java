@@ -19,7 +19,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -100,7 +103,7 @@ public class UserService {
             }
             case MONTHLY -> {
                 start = today.withDayOfMonth(1).atStartOfDay();
-                end = today.withDayOfMonth(1).plusMonths(1).atStartOfDay(); // ✅ 수정
+                end = today.withDayOfMonth(1).plusMonths(1).atStartOfDay();
                 result = userPointLogRepository.findTopEarnedByPeriod(start, end);
             }
             case TOTAL -> {
@@ -120,14 +123,24 @@ public class UserService {
     public List<UserRankingResponse> getDateRanking(LocalDate date) {
         LocalDateTime start = date.atStartOfDay();
         LocalDateTime end = date.atTime(LocalTime.MAX);
+
         List<UserPointLog> logs = userPointLogRepository.findByCreatedAtBetween(start, end);
 
-        return logs.stream()
-                .filter(log -> log.getPointType() == PointType.PREDICT)
-                .map(log -> new UserRankingResponse(
-                        log.getUser().getPhoneNumber(),
-                        log.getUser().getPoint()
+        Map<User, BigDecimal> userScoreMap = logs.stream()
+                .collect(Collectors.groupingBy(
+                        UserPointLog::getUser,
+                        Collectors.collectingAndThen(
+                                Collectors.mapping(UserPointLog::getPointType, Collectors.toSet()),
+                                set -> BigDecimal.valueOf(set.size())
+                        )
+                ));
+
+        return userScoreMap.entrySet().stream()
+                .map(entry -> new UserRankingResponse(
+                        entry.getKey().getPhoneNumber(),
+                        entry.getValue() // BigDecimal
                 ))
+                .sorted(Comparator.comparing(UserRankingResponse::point).reversed())
                 .toList();
     }
 }
