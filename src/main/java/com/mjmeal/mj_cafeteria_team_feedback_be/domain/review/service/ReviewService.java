@@ -9,8 +9,10 @@ import com.mjmeal.mj_cafeteria_team_feedback_be.domain.menu.entity.Menu;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.menu.repository.MenuRepository;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.question.entity.Question;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.question.repository.QuestionRepository;
+import com.mjmeal.mj_cafeteria_team_feedback_be.domain.rating.dto.ReviewSummaryResponse;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.rating.entity.Rating;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.rating.repository.RatingRepository;
+import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.MealType;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.dto.ReviewRequest;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.entity.Review;
 import com.mjmeal.mj_cafeteria_team_feedback_be.domain.review.entity.ReviewToken;
@@ -22,6 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import static com.mjmeal.mj_cafeteria_team_feedback_be.common.response.error.ErrorCode.ALREADY_TOKEN;
@@ -116,5 +121,80 @@ public class ReviewService {
     @Transactional
     public void registerToken(String token) {
         reviewTokenRepository.save(ReviewToken.from(token));
+    }
+
+    @Transactional(readOnly = true)
+    public ReviewSummaryResponse getReviewSummary(MealType mealType) {
+
+        List<Meal> mealList = mealRepository.findByMealType(mealType);
+        List<Long> mealIds = mealList.stream()
+                .map(Meal::getId)
+                .toList();
+
+        List<Review> reviews = reviewRepository.findByMealIdIn(mealIds);
+        long reviewCount = reviews.size();
+
+        double overallAverageRating = 0.0;
+        if (!reviews.isEmpty()) {
+            overallAverageRating = reviews.stream()
+                    .map(review -> {
+                        List<Rating> ratings = ratingRepository.findByReview(review);
+                        return ratings.stream()
+                                .map(Rating::getRating)
+                                .mapToDouble(BigDecimal::doubleValue)
+                                .average()
+                                .orElse(0.0);
+                    })
+                    .mapToDouble(Double::doubleValue)
+                    .average()
+                    .orElse(0.0);
+        }
+
+        List<String> overallOpinions = reviews.stream()
+                .map(Review::getOverallOpinion)
+                .filter(StringUtils::hasText)
+                .toList();
+
+        return ReviewSummaryResponse.builder()
+                .reviewCount(reviewCount)
+                .overallAverageRating(overallAverageRating)
+                .overallOpinions(overallOpinions)
+                .build();
+    }
+
+    @Transactional(readOnly = true)
+    public ReviewSummaryResponse getTodayReviews(LocalDate date, MealType mealType) {
+        String dayInfo = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        Meal meal = mealRepository.findByDayInfoStartingWithAndMealType(dayInfo, mealType);
+
+        List<Review> reviews = reviewRepository.findByMeal(meal);
+        long reviewCount = reviews.size();
+
+        double overallAverageRating = 0.0;
+        if (reviewCount > 0) {
+            overallAverageRating = reviews.stream()
+                    .map(review -> {
+                        List<Rating> ratings = ratingRepository.findByReview(review);
+                        return ratings.stream()
+                                .map(Rating::getRating)
+                                .mapToDouble(BigDecimal::doubleValue)
+                                .average()
+                                .orElse(0.0);
+                    })
+                    .mapToDouble(Double::doubleValue)
+                    .average()
+                    .orElse(0.0);
+        }
+
+        List<String> overallOpinions = reviews.stream()
+                .map(Review::getOverallOpinion)
+                .filter(StringUtils::hasText)
+                .toList();
+
+        return ReviewSummaryResponse.builder()
+                .reviewCount(reviewCount)
+                .overallAverageRating(overallAverageRating)
+                .overallOpinions(overallOpinions)
+                .build();
     }
 }
